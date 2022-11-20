@@ -18,9 +18,23 @@ class Operations : Node{
     
     void insert(int d){
         Node *temp= new Node() ;
-        temp->data=d;
-        temp->next=head;
-        head=temp;
+       if(head==NULL){
+           
+            temp->data=d;
+            temp->next=NULL;
+            head=temp;
+            //flag=false;
+        }
+        else{
+            Node *p = head;
+            while(p->next!=NULL){
+                p=p->next;
+            }
+            
+            temp->data=d;
+            temp->next=NULL;
+            p->next=temp;
+        }
         
     }
     void Print(){

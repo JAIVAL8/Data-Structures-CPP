@@ -16,16 +16,16 @@ class Node
 class Operations : Node{
     public:
     Node *head=NULL;
-    bool flag=true;
+    // bool flag=true;
     void insert(int d ){
         
         Node *temp= new Node() ;
-        if(flag){
+        if(head==NULL){
             temp->prev=NULL;
             temp->data=d;
             temp->next=NULL;
             head=temp;
-            flag=false;
+            //flag=false;
         }
         else{
             Node *p = head;
