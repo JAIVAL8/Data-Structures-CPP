@@ -30,7 +30,6 @@ class Operations : Node{
             while(p->next!=NULL){
                 p=p->next;
             }
-            
             temp->data=d;
             temp->next=NULL;
             p->next=temp;
