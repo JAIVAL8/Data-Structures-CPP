@@ -15,6 +15,7 @@ class Operations : Node
 {
 public:
     Node *root = NULL;
+    // Create tree
     Node *create(int d)
     {
         Node *temp = new Node();
@@ -44,23 +45,73 @@ public:
     {
         root = insert(root, d);
     }
-    void Print(Node *p)
+
+    // Print the bst tree
+    //  Post order traversal.
+    /*Time C O(n)
+    Space
+    best o(1) (whole tree one sigle child in same directin)
+    worst/avg O(n)
+    */
+    void Level_O(Node *p)
+    {
+        queue<Node *> q;
+        if (p == NULL)
+        {
+            return;
+        }
+        q.push(root);
+        while (!q.empty())
+        {
+            Node *cur = q.front();
+            cout << cur->data << endl;
+            if (cur->left != NULL)
+            {
+                q.push(cur->left);
+            }
+            if (cur->right != NULL)
+            {
+                q.push(cur->right);
+            }
+            q.pop();
+        }
+    }
+    void In_O(Node *p)
     {
 
         if (p->left != NULL)
         {
-            Print(p->left);
+            In_O(p->left);
+        }
+        cout << p->data << ' ' << endl;
+        if (p->right != NULL)
+        {
+            In_O(p->right);
+        }
+    }
+    void Post_O(Node *p)
+    {
+
+        if (p->left != NULL)
+        {
+            Post_O(p->left);
         }
         if (p->right != NULL)
         {
-            Print(p->right);
+            Post_O(p->right);
         }
         cout << p->data << ' ' << endl;
     }
     void P()
     {
-        Print(root);
+        cout << " Level order" << endl;
+        Level_O(root);
+        cout << " In order" << endl;
+        In_O(root);
+        cout << " Post order" << endl;
+        Post_O(root);
     }
+    // Find min in bst
     int M(Node *root)
     {
         if (root->left != NULL)
@@ -72,10 +123,71 @@ public:
             return root->data;
         }
     }
+
     void m()
     {
         cout << "Min Val in tree is: " << M(root);
     }
+    // Is it a bst
+
+    // NOTE: BST in order will give elements in sorted order
+    /*
+    bool gbst(Node *g, int d)
+    {
+        if (g == NULL)
+        {
+            return true;
+        }
+        if (g->data > d && gbst(g->left, g->data) && gbst(g->right, g->data))
+        {
+            return true;
+        }
+        else
+        {
+            cout << "1";
+            return false;
+        }
+    }
+    bool lbst(Node *l, int d)
+    {
+        if (l == NULL)
+        {
+            return true;
+        }
+        if (l->data <= d && lbst(l->left, l->data) && lbst(l->right, l->data))
+        {
+            return true;
+        }
+        else
+        {
+            cout << "2";
+            return false;
+        }
+    }
+    */
+
+    bool Isbst(Node *p, int minv, int maxv)
+    {
+        if (p == NULL)
+        {
+            return true;
+        }
+        if (p->data > minv && p->data < maxv && Isbst(p->left, minv, p->data) && Isbst(p->right, p->data, maxv))
+        {
+            return true;
+        }
+        else
+        {
+            cout << "3";
+            return false;
+        }
+    }
+    void isbst()
+    {
+        cout << "Is it a binary ST: " << ((Isbst(root, INT_MIN, INT_MAX)) ? "True" : "False");
+    }
+
+    // Height check
     int H(Node *root)
     {
         if (root == NULL)
@@ -100,7 +212,7 @@ int main()
     while (true)
     {
         cout << endl
-             << "Enter Choice 1 to add / 2 to list out / 3 to find min / 4 to find height of Tree" << endl;
+             << "Enter Choice 1 to add / 2 to list out / 3 to find min / 4 to find height of Tree / 5 to check if tree is bst" << endl;
         cin >> c;
         switch (c)
         {
@@ -117,6 +229,9 @@ int main()
             break;
         case 4:
             L.h();
+            break;
+        case 5:
+            L.isbst();
             break;
 
         default:
