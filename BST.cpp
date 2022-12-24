@@ -203,23 +203,83 @@ public:
     {
         cout << "Height of this BST is : " << H(root);
     }
+    // Deleting an element from bst
+    Node *Util_Del(Node *p, int d)
+    {
+        if (p == NULL)
+        {
+            return p;
+        }
+        else if (d > p->data)
+        {
+            p->right = Util_Del(p->right, d);
+        }
+        else if (d < p->data)
+        {
+            p->left = Util_Del(p->left, d);
+        }
+        else
+        {
+            if (p->left == NULL && p->right == NULL)
+            {
+                delete p;
+                p = NULL;
+                return p;
+            }
+            else if (!(p->left != NULL) || !(p->right != NULL))
+            {
+                Node *temp;
+                if (p->left != NULL)
+                {
+                    temp = p;
+                    p = p->left;
+
+                    delete temp;
+                    return p;
+                }
+                else
+                {
+                    temp = p;
+                    p = p->right;
+                    delete temp;
+                    return p;
+                }
+            }
+            else
+            {
+                p->data = M(p->right);
+                p->right = Util_Del(p->right, p->data);
+            }
+        }
+    }
+    void Del(int d)
+    {
+        root = Util_Del(root, d);
+    }
 };
 int main()
 {
     Operations L;
 
-    int c, n;
+    int c, n, v;
     while (true)
     {
         cout << endl
-             << "Enter Choice 1 to add / 2 to list out / 3 to find min / 4 to find height of Tree / 5 to check if tree is bst" << endl;
+             << "Enter Choice 1 to add / 2 to list out / 3 to find min / 4 to find height of Tree / 5 to check if tree is bst/ 6 to del data" << endl;
         cin >> c;
         switch (c)
         {
         case 1:
-            cout << "Enter the val: ";
+            cout << "Enter amount of val: ";
             cin >> n;
-            L.in(n);
+            cout << endl
+                 << "Enter the val: ";
+            while (n > 0)
+            {
+                cin >> v;
+                L.in(v);
+                n--;
+            }
             break;
         case 2:
             L.P();
@@ -233,7 +293,11 @@ int main()
         case 5:
             L.isbst();
             break;
-
+        case 6:
+            cout << "Enter Data to be deleted: ";
+            cin >> n;
+            L.Del(n);
+            break;
         default:
             break;
         }
